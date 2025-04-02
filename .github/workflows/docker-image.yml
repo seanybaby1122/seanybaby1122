@@ -1,0 +1,129 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+README.mdimport networkx as nx
+from collections import defaultdict
+
+# Function to create and populate the graph with timestamps
+def create_transformation_graph(transitions):
+    G = nx.DiGraph()
+    for u, v, prob, timestamp in transitions:
+        G.add_edge(u, v, weight=prob, timestamp=timestamp)
+    return G
+
+# Function to identify cycles in the graph
+def find_cycles(G):
+    cycles = list(nx.simple_cycles(G))
+    return cycles
+
+# Function to refine probabilities based on cycles
+def refine_probabilities(G, cycles, multiplier=1.2):
+    for cycle in cycles:
+        for i in range(len(cycle)):
+            u, v = cycle[i], cycle[(i + 1) % len(cycle)]
+            if G.has_edge(u, v):
+                weight = G[u][v]['weight']
+                new_weight = weight * multiplier
+                G[u][v]['weight'] = new_weight
+    normalize_probabilities(G)
+
+# Function to normalize edge probabilities
+def normalize_probabilities(G):
+    for node in G.nodes:
+        out_edges = list(G.out_edges(node, data=True))
+        total_weight = sum(data['weight'] for _, _, data in out_edges)
+        if total_weight > 0:
+            for u, v, data in out_edges:
+                G[u][v]['weight'] = data['weight'] / total_weight
+
+# Function to generate JARIS predictions based on transition frequencies
+def generate_jaris_predictions(G):
+    transition_count = defaultdict(int)
+    node_out_degree = defaultdict(int)
+    for u, v, data in G.edges(data=True):
+        transition_count[(u, v)] += 1
+        node_out_degree[u] += 1
+    predictions = []
+    for (u, v), count in transition_count.items():
+        prob = count / node_out_degree[u]
+        predictions.append((u, v, prob))
+    return predictions
+
+# Function to integrate JARIS predictions into the graph
+def integrate_jaris_predictions(G, predictions):
+    for u, v, prob in predictions:
+        if G.has_edge(u, v):
+            G[u][v]['weight'] = prob
+    normalize_probabilities(G)
+
+# Function to apply PageRank and centrality measures
+def apply_graph_algorithms(G):
+    pagerank = nx.pagerank(G)
+    degree_centrality = nx.degree_centrality(G)
+    betweenness_centrality = nx.betweenness_centrality(G)
+    closeness_centrality = nx.closeness_centrality(G)
+    # Incorporate the measures into edge weights or node attributes
+    for node in G.nodes:
+        G.nodes[node]['pagerank'] = pagerank[node]
+        G.nodes[node]['degree_centrality'] = degree_centrality[node]
+        G.nodes[node]['betweenness_centrality'] = betweenness_centrality[node]
+        G.nodes[node]['closeness_centrality'] = closeness_centrality[node]
+
+# Function to apply sliding window and noise reduction
+def apply_temporal_and_noise_reduction(G, window_size=5, noise_threshold=0.01):
+    # Sliding window (basic example)
+    timestamps = [data['timestamp'] for _, _, data in G.edges(data=True)]
+    latest_timestamp = max(timestamps)
+    window_start = latest_timestamp - window_size
+    # Remove edges outside the sliding window
+    edges_to_remove = [(u, v) for u, v, data in G.edges(data=True) if data['timestamp'] < window_start]
+    G.remove_edges_from(edges_to_remove)
+    # Noise reduction (remove low-weight edges)
+    edges_to_remove = [(u, v) for u, v, data in G.edges(data=True) if data['weight'] < noise_threshold]
+    G.remove_edges_from(edges_to_remove)
+    # Normalize after modifications
+    normalize_probabilities(G)
+
+# Function to analyze the graph and print results
+def analyze_graph(G):
+    print("JARIS-Enhanced Graph Information:")
+    for u, v, data in G.edges(data=True):
+        print(f"Edge: {u} -> {v}, Probability: {data['weight']:.4f}, Timestamp: {data['timestamp']}")
+    for node in G.nodes:
+        print(f"Node: {node}, PageRank: {G.nodes[node]['pagerank']:.4f}, Degree: {G.nodes[node]['degree_centrality']:.4f}, Betweenness: {G.nodes[node]['betweenness_centrality']:.4f}, Closeness: {G.nodes[node]['closeness_centrality']:.4f}")
+
+# Main execution function
+def main():
+    transitions = [
+        ('A', 'B', 0.2, 1), ('B', 'C', 0.3, 2), ('C', 'A', 0.5, 3),
+        ('D', 'E', 0.4, 4), ('E', 'F', 0.6, 5), ('F', 'D', 0.3, 6),
+        ('G', 'H', 0.7, 7), ('H', 'I', 0.2, 8), ('I', 'G', 0.1, 9),
+        ('A', 'D', 0.8, 10), ('H', 'A', 0.9, 11), ('I', 'B', 0.6, 12)
+    ]
+    G = create_transformation_graph(transitions)
+    cycles = find_cycles(G)
+    refine_probabilities(G, cycles)
+    predictions = generate_jaris_predictions(G)
+    integrate_jaris_predictions(G, predictions)
+    apply_graph_algorithms(G)
+    apply_temporal_and_noise_reduction(G)
+    analyze_graph(G)
+
+if __name__ == "__main__":
+    main()
+    
