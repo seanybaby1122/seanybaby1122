@@ -2,7 +2,10 @@
 
 import networkx as nx
 
-# import matplotlib.pyplot as plt
+# prompt: import matplotlib.pyplot as plt
+
+import matplotlib.pyplot as plt
+
 # from matplotlib_venn import venn2
 # # Step 1: Define your symbolic data
 # data = {
