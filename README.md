@@ -1,4 +1,7 @@
-# prompt: import networkx as nx
+# prompt: prompt: import networkx as nx
+
+import networkx as nx
+
 # import matplotlib.pyplot as plt
 # from matplotlib_venn import venn2
 # # Step 1: Define your symbolic data
