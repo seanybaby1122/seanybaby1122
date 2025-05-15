@@ -1,12 +1,22 @@
-# prompt: prompt: import networkx as nx
-
-import networkx as nx
-
+# prompt: prompt: prompt: import networkx as nx
+# import networkx as nx
 # prompt: import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
+# from matplotlib_venn import venn2
 
 import matplotlib.pyplot as plt
+from matplotlib_venn import venn2
 
-# from matplotlib_venn import venn2
+# Assuming 'data' and 'graph' are defined from the previous code
+
+# Step 3: Analyze and visualize the graph (example: Venn diagram)
+known_words = set(data["words"].keys())
+generated_words = set(node for node, attr in graph.nodes(data=True) if attr.get("category") == "Generated")
+
+venn2([known_words, generated_words], ('Known Words', 'Generated Words'))
+plt.title("Known vs. Generated Words")
+plt.show()
+
 # # Step 1: Define your symbolic data
 # data = {
 #     "words": {
