@@ -117,4 +117,153 @@ symbolic_operator_definition = {
 
 # You can use this dictionary to generate JSON-LD output if needed.
 # import json
-# print(json.dumps(symbolic_operator_definition, indent=2))
+# print(json.dumps(symbolic_operator_definition, indent=2))# prompt: ✅ Excellent implementation — your SymbolicInteractionEngine now serves as a clean interaction/resonance layer for your symbolic OS. This will allow you to simulate cognitive, emotional, or computational harmonics between symbolic types.
+# Here’s a structured summary and recommended upgrades for next-phase integration:
+# ⸻
+# 🧠 Core Functional Summary
+# Module	Capability	Description
+# define_interaction_rule	✅ Flexible Rule Mapping	Enables symbol-type pair interactions via custom logic functions.
+# calculate_resonance	✅ Bidirectional Matching	Finds interaction strength or result using symmetric lookup.
+# identify_dissonance	✅ Threshold-Based Logic	Flags low-resonance pairings as symbolic dissonance.
+# ⸻
+# 🔬 Sample Output Recap
+# Resonance between a and b: 15
+# Resonance between a and c: None
+# Is a and b dissonant (threshold 10)? False
+# Is a and b dissonant (threshold 20)? True
+# ⸻
+# 🔄 Next-Step Enhancements
+# 1. 🔷 Polarity-Aware Interactions
+# Goal: Evaluate symbolic resonance not just on numeric value, but alignment of polarity:
+# def polarity_interaction(value1, value2):
+#     if value1 == value2:
+#         return 1.0  # full resonance
+#     elif value1 == '-' and value2 == '+':
+#         return -1.0  # full dissonance
+#     else:
+#         return 0.0  # neutral
+# Used for:
+# engine.define_interaction_rule('polarity', 'polarity', polarity_interaction)
+# ⸻
+# 2. 🧱 Structured Symbol Objects with @type and Polarity
+# Update your symbol dicts for future JSON-LD export:
+# symbol_a = {
+#     "@id": "symbol_a",
+#     "@type": "Symbol",
+#     "type": "number",
+#     "value": 10,
+#     "polarity": "+"
+# }
+# ⸻
+# 3. 🔁 Register Compositional Interaction Chains
+# Build recursive or cascading interactions:
+# def composite_interaction(v1, v2):
+#     return (v1 + v2) * 0.5  # average resonance
+# engine.define_interaction_rule('intensity', 'frequency', composite_interaction)
+# ⸻
+# 4. 🌐 Semantic JSON-LD Export
+# You’re ready to export your interaction rules and symbols:
+# {
+#   "@context": "http://symbolic-os.org/context",
+#   "@type": "S
+
+# Assuming the previous code for the SymbolicInteractionEngine is available in the environment.
+# If not, you would need to include the class definition here.
+
+# Define the polarity interaction function
+def polarity_interaction(value1, value2):
+    if value1 == value2:
+        return 1.0  # full resonance
+    elif value1 == '-' and value2 == '+':
+        return -1.0  # full dissonance
+    else:
+        return 0.0  # neutral
+
+# Define a composite interaction function
+def composite_interaction(v1, v2):
+    # This assumes the values are numeric
+    if isinstance(v1, (int, float)) and isinstance(v2, (int, float)):
+        return (v1 + v2) * 0.5  # average resonance
+    else:
+        return None # Handle non-numeric inputs if necessary
+
+# Example of structured symbol objects
+symbol_a = {
+    "@id": "symbol_a",
+    "@type": "Symbol",
+    "type": "number",
+    "value": 10,
+    "polarity": "+"
+}
+
+symbol_b = {
+    "@id": "symbol_b",
+    "@type": "Symbol",
+    "type": "number",
+    "value": 5,
+    "polarity": "+"
+}
+
+symbol_c = {
+    "@id": "symbol_c",
+    "@type": "Symbol",
+    "type": "string",
+    "value": "hello",
+    "polarity": "-"
+}
+
+symbol_d = {
+    "@id": "symbol_d",
+    "@type": "Symbol",
+    "type": "string",
+    "value": "world",
+    "polarity": "+"
+}
+
+# Create an instance of the engine (assuming the class is defined)
+# engine = SymbolicInteractionEngine()
+
+# Register the new interaction rules
+# engine.define_interaction_rule('polarity', 'polarity', polarity_interaction)
+# engine.define_interaction_rule('number', 'number', composite_interaction)
+
+# Example usage with structured symbols (assuming calculate_resonance is updated)
+# resonance_ab_polarity = engine.calculate_resonance(symbol_a, symbol_b, 'polarity')
+# resonance_ad_polarity = engine.calculate_resonance(symbol_a, symbol_d, 'polarity')
+# resonance_ab_number = engine.calculate_resonance(symbol_a, symbol_b, 'value', interaction_type='number')
+
+
+# Placeholder for JSON-LD export (requires collecting rules and symbols)
+def export_to_jsonld(engine_rules, symbols):
+    context = "http://symbolic-os.org/context"
+    graph = []
+
+    # Add symbols to the graph
+    for symbol in symbols:
+        graph.append(symbol)
+
+    # Add interaction rules to the graph (requires a structure to store them in the engine)
+    # This part is conceptual as the current engine doesn't explicitly store rules for export
+    # Example structure if rules were stored:
+    # for rule_key, rule_func in engine_rules.items():
+    #     graph.append({
+    #         "@type": "InteractionRule",
+    #         "rule_key": rule_key, # e.g., ('number', 'number')
+    #         "logic": rule_func.__name__ # or a serialized representation
+    #     })
+
+    jsonld_output = {
+        "@context": context,
+        "@graph": graph
+    }
+
+    import json
+    return json.dumps(jsonld_output, indent=2)
+
+# Example of calling the export function (you would pass the engine's rules and symbols)
+# Assuming the engine has a way to retrieve its rules and symbols
+# all_symbols = [symbol_a, symbol_b, symbol_c, symbol_d]
+# jsonld_data = export_to_jsonld(engine.get_rules(), all_symbols)
+# print(jsonld_data)
+
+
