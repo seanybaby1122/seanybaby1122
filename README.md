@@ -159,4 +159,27 @@ print(f"Created file: {file_path}")
 
 # Optional: Verify the file creation
 !ls -l .github/workflows/
+# prompt: prompt: {"from": "DATA", "to": "ATAD", "type": "Reverse"},
+
+def transform_string(prompt):
+  """Transforms a string based on the given prompt.
+
+  Args:
+    prompt: A dictionary with 'from', 'to', and 'type' keys.
+
+  Returns:
+    The transformed string.
+  """
+  input_string = prompt["from"]
+  transform_type = prompt["type"]
+
+  if transform_type == "Reverse":
+    return input_string[::-1]
+  else:
+    return "Unsupported transformation type"
+
+# Example usage:
+prompt = {"from": "DATA", "to": "ATAD", "type": "Reverse"}
+transformed_string = transform_string(prompt)
+transformed_string
 
