@@ -106,4 +106,57 @@ dropdown_string = f'"{dropdown_string}"'
 # Create the Colab form variable
 # The first item in the list will be the default
 print(f'selected_country = "{random_countries[0]}" #@param [{dropdown_string}]')
+# prompt: Define the file path
+# file_path = os.path.join(directory, 'docker-ci.yml')
+# Write the content to the file
+# with open(file_path, 'w') as f: f.write(file_content)
+# print(f"Created file: {file_path}")
+# Optional: Verify the file creation
+# !ls -l .github/workflows/
+# prompt: prompt: {"from": "DATA", "to": "ATAD", "type": "Reverse"},
+# {"from": "DATA", "to": "AGRA", "type": "Substitute"},
+
+import os
+directory = '.github/workflows'
+if not os.path.exists(directory):
+    os.makedirs(directory)
+file_content = """name: Docker CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: your_docker_hub_username/your_image_name:latest
+"""
+
+file_path = os.path.join(directory, 'docker-ci.yml')
+with open(file_path, 'w') as f: f.write(file_content)
+print(f"Created file: {file_path}")
+
+# Optional: Verify the file creation
+!ls -l .github/workflows/
 
