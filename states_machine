@@ -1,72 +1,6 @@
-# prompt: environment.check_for_resource(self, proximity_threshold):  # Use the new proximity-based check
-#             self.resources_collected += 1
-#             print(f"Agent in state '{self.state}' at ({round(self.x)}, {round(self.y)}) collected a resource! Total: {self.resources_collected}")
-#         # Other state transitions (no change)
-#         if self.state == 'A' and environment.state == 'X':
-#             nearby_c = any(agent.state == 'C' and self.distance_to(agent) < proximity_threshold for agent in other_agents if agent != self)
-#             nearby_b = any(agent.state == 'B' and self.distance_to(agent) < proximity_threshold for agent in other_agents if agent != self)
-#             if nearby_c:
-#                 self.state = 'B'  # Transition to 'B' if 'C' agent is nearby
-#             elif nearby_b:
-#                 pass  # Stay in 'A' to avoid 'B' agents
-#             else:
-#                 self.state = 'C'  # Default to 'C' if no nearby agents
-#         elif self.state == 'B' and environment.state == 'X':
-#             self.state = 'C'
-#         elif self.state == 'C' and environment.state == 'Y':
-#             self.state = 'A'
-#         elif self.state == 'C' and environment.state == 'Z':
-#             self.state = 'B'
-#         self.move()  # Agents move in each turn
-#         return self.state
-# def run_simulation():
-#     # Create an environment with resources
-#     environment = Environment(resource_position=(5, 5), resource_quantity=5)
-#     # Create agents with different initial positions and states
-#     agents = [
-#         StateMachine(initial_state='A', x=random.uniform(0, 10), y=random.uniform(0, 10)),
-#         StateMachine(initial_state='B', x=random.uniform(0, 10), y=random.uniform(0, 10)),
-#         StateMachine(initial_state='C', x=random.uniform(0, 10), y=random.uniform(0, 10))
-#     ]
-#     # Run a certain number of simulation steps
-#     steps = 10
-#     for step in range(steps):
-#         print(f"Step {step+1}:")
-#         for agent in agents:
-#             # Log agent state and position
-
-from enum import Enum
-import random
-import math
-
-class State(Enum):
-    A = 1
-    B = 2
-    C = 3
-
-class EnvironmentState(Enum):
-    X = 1
-    Y = 2
-    Z = 3
-
-class Environment:
-    def __init__(self, resource_position, resource_quantity):
-        self.state = random.choice(list(EnvironmentState))
-        self.resource_position = resource_position
-        self.resource_quantity = resource_quantity
-
-    def check_for_resource(self, agent, proximity_threshold):
-        """Checks if an agent is within the proximity of a resource."""
-        if self.resource_quantity > 0:
-            distance = math.sqrt((agent.x - self.resource_position[0])**2 + (agent.y - self.resource_position[1])**2)
-            if distance < proximity_threshold:
-                self.resource_quantity -= 1
-                return True
-        return False
-
 class StateMachine:
     def __init__(self, initial_state, x, y):
-        self.state = initial_state
+        self.state = initial_state  # Use the State enum
         self.x = x
         self.y = y
         self.resources_collected = 0
@@ -77,52 +11,50 @@ class StateMachine:
 
     def move(self):
         """Simulates agent movement."""
-        # Simple random movement for demonstration
         self.x += random.uniform(-0.5, 0.5)
         self.y += random.uniform(-0.5, 0.5)
-        # Keep agents within bounds (0 to 10)
         self.x = max(0, min(10, self.x))
         self.y = max(0, min(10, self.y))
 
     def transition(self, environment, other_agents, proximity_threshold):
         """Determines the next state based on current state and environment."""
         # Check for resource collection
-        if environment.check_for_resource(self, proximity_threshold):  # Use the new proximity-based check
+        if environment.check_for_resource(self, proximity_threshold):
             self.resources_collected += 1
-            print(f"Agent in state '{self.state}' at ({round(self.x)}, {round(self.y)}) collected a resource! Total: {self.resources_collected}")
+            print(f"Agent in state '{self.state.name}' at ({round(self.x)}, {round(self.y)}) collected a resource! Total: {self.resources_collected}")
 
-        # Other state transitions (no change)
-        if self.state == 'A' and environment.state == EnvironmentState.X:
-            nearby_c = any(agent.state == 'C' and self.distance_to(agent) < proximity_threshold for agent in other_agents if agent != self)
-            nearby_b = any(agent.state == 'B' and self.distance_to(agent) < proximity_threshold for agent in other_agents if agent != self)
+        # State transition logic
+        if self.state == State.A and environment.state == EnvironmentState.X:
+            nearby_c = any(agent.state == State.C and self.distance_to(agent) < proximity_threshold for agent in other_agents if agent != self)
+            nearby_b = any(agent.state == State.B and self.distance_to(agent) < proximity_threshold for agent in other_agents if agent != self)
             if nearby_c:
-                self.state = 'B'  # Transition to 'B' if 'C' agent is nearby
+                self.state = State.B
             elif nearby_b:
-                pass  # Stay in 'A' to avoid 'B' agents
+                pass  # Stay in State.A
             else:
-                self.state = 'C'  # Default to 'C' if no nearby agents
-        elif self.state == 'B' and environment.state == EnvironmentState.X:
-            self.state = 'C'
-        elif self.state == 'C' and environment.state == EnvironmentState.Y:
-            self.state = 'A'
-        elif self.state == 'C' and environment.state == EnvironmentState.Z:
-            self.state = 'B'
+                self.state = State.C
+        elif self.state == State.B and environment.state == EnvironmentState.X:
+            self.state = State.C
+        elif self.state == State.C and environment.state == EnvironmentState.Y:
+            self.state = State.A
+        elif self.state == State.C and environment.state == EnvironmentState.Z:
+            self.state = State.B
 
-        self.move()  # Agents move in each turn
+        self.move()
         return self.state
 
 def run_simulation():
     # Define proximity threshold
-    proximity_threshold = 1.0  # Adjust this value as needed
+    proximity_threshold = 1.0
 
     # Create an environment with resources
     environment = Environment(resource_position=(5, 5), resource_quantity=5)
 
     # Create agents with different initial positions and states
     agents = [
-        StateMachine(initial_state='A', x=random.uniform(0, 10), y=random.uniform(0, 10)),
-        StateMachine(initial_state='B', x=random.uniform(0, 10), y=random.uniform(0, 10)),
-        StateMachine(initial_state='C', x=random.uniform(0, 10), y=random.uniform(0, 10))
+        StateMachine(initial_state=State.A, x=random.uniform(0, 10), y=random.uniform(0, 10)),
+        StateMachine(initial_state=State.B, x=random.uniform(0, 10), y=random.uniform(0, 10)),
+        StateMachine(initial_state=State.C, x=random.uniform(0, 10), y=random.uniform(0, 10))
     ]
 
     # Run a certain number of simulation steps
@@ -130,12 +62,10 @@ def run_simulation():
     for step in range(steps):
         print(f"Step {step+1}:")
         for agent in agents:
-            # Log agent state and position before transition
-            print(f"  Agent in state '{agent.state}' at ({round(agent.x, 2)}, {round(agent.y, 2)})")
+            print(f"  Agent in state '{agent.state.name}' at ({round(agent.x, 2)}, {round(agent.y, 2)})")
             agent.transition(environment, agents, proximity_threshold)
-            # Log agent state and position after transition
-            print(f"  Agent transitioned to state '{agent.state}' at ({round(agent.x, 2)}, {round(agent.y, 2)})")
+            print(f"  Agent transitioned to state '{agent.state.name}' at ({round(agent.x, 2)}, {round(agent.y, 2)})")
         print("-" * 20)
 
 # Run the simulation
-# run_simulation()
+run_simulation()
