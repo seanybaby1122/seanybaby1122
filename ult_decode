@@ -1,0 +1,315 @@
+# prompt: Add these methods to and create the most robust decoder act as a master code Core TJA Rules Module (tja_rules.py)
+# # tja_rules.py
+# # """
+# # Core definitions for TJA symbolic mappings and rules.
+# # """
+# # Foundational letter-to-function mappings
+# # LETTER_FUNCTIONS = {
+# # 'A': 'Activate',
+# # 'B': 'Balance', # Example - fill these out fully
+# # 'C': 'Contain',
+# # 'D': 'Direct',
+# # 'E': 'Expand',
+# # 'F': 'Focus',
+# # 'G': 'Generate', # Added example
+# # 'H': 'Harmonize',# Added example
+# # 'I': 'Integrate',
+# # 'J': 'Juxtapose',# Added example
+# # 'K': 'Key',      # Added example
+# # 'L': 'Link',     # Renamed 'Legitimize' to 'Link' as per potential TJA logic
+# # 'M': 'Magnify',  # Added example
+# # 'N': 'Navigate', # Added example
+# # 'O': 'Open',     # Added example
+# # 'P': 'Project',  # Added example
+# # 'Q': 'Query',    # Added example
+# # 'R': 'Relate',   # Added example
+# # 'S': 'Synthesize',# Renamed 'Stabilize' to 'Synthesize'
+# # 'T': 'Transmit',
+# # 'U': 'Unify',    # Added example
+# # 'V': 'Verify',   # Added example
+# # 'W': 'Weave',    # Added example
+# # 'X': 'Execute',  # Added example - often special
+# # 'Y': 'Yield',    # Added example
+# # 'Z': 'Zero-in',  # Added example
+# # # TODO: Complete A-Z with the definitive TJA core mappings
+# # }
+# # Placeholder for Flip Tree logic - currently hardcoded examples
+# # TODO: Replace with actual TJA flip algorithms/rules
+# # This could involve rules like "letter + 1", "vowel swap", "positional shifts", etc.
+# # PREDEFINED_FLIPS = {
+# # "AIT": ["BIT", "DIT", "TIB", "AIT", "TIS", "ALT", "TJA"],
+# # "TJA": ["AIT", "TJB", "SJA", "TIA"], # Example
+# # }
+# # Placeholder for Shadow Logic (Opposites) - currently hardcoded examples
+# # TODO: Define the systematic rules or comprehensive map for TJA opposites
+# # PREDEFINED_OPPOSITES = {
+# # "BIT": "TIB",
+# # "AIT": "XYZ", # Example from spec - replace with actual TJA opposite if defined
+# # # Add more known opposites
+# # }
+# # def get_letter_function(letter: str) -> str | None:
+# # prompt: Excellent! Taking these concrete steps is exactly the right approach. L
+
+# tja_rules.py
+"""
+Core definitions for TJA symbolic mappings and rules.
+
+This module defines the foundational elements of the TJA decoding system,
+including letter-to-function mappings, and mechanisms for handling
+"Flip Tree" and "Shadow Logic" relationships between codes.
+"""
+
+import re
+
+# Foundational letter-to-function mappings
+# Define the core functional meaning associated with each letter in TJA.
+# This mapping is central to interpreting the meaning of TJA codes.
+LETTER_FUNCTIONS = {
+    'A': 'Activate',
+    'B': 'Balance',
+    'C': 'Contain',
+    'D': 'Direct',
+    'E': 'Expand',
+    'F': 'Focus',
+    'G': 'Generate',
+    'H': 'Harmonize',
+    'I': 'Integrate',
+    'J': 'Juxtapose',
+    'K': 'Key',
+    'L': 'Link',
+    'M': 'Magnify',
+    'N': 'Navigate',
+    'O': 'Open',
+    'P': 'Project',
+    'Q': 'Query',
+    'R': 'Relate',
+    'S': 'Synthesize',
+    'T': 'Transmit',
+    'U': 'Unify',
+    'V': 'Verify',
+    'W': 'Weave',
+    'X': 'Execute',
+    'Y': 'Yield',
+    'Z': 'Zero-in',
+}
+
+# Placeholder for Flip Tree logic - currently hardcoded examples
+# TODO: Replace with actual TJA flip algorithms/rules.
+# This should evolve into a system that generates flips based on defined TJA rules,
+# rather than relying solely on a lookup table. Potential rules could involve
+# "letter + 1", "vowel swap", "positional shifts", "reverse", etc.
+# For now, this serves as a placeholder to illustrate the concept of related codes.
+PREDEFINED_FLIPS = {
+    "AIT": ["BIT", "DIT", "TIB", "AIT", "TIS", "ALT", "TJA"],
+    "TJA": ["AIT", "TJB", "SJA", "TIA"],
+    "BIT": ["TIB", "CIT"], # Example
+    "TIB": ["BIT", "TIC"], # Example
+    # Add more known flips
+}
+
+# Placeholder for Shadow Logic (Opposites) - currently hardcoded examples
+# TODO: Define the systematic rules or comprehensive map for TJA opposites.
+# This should be a more systematic approach than just a lookup table,
+# potentially based on the functional definitions of the letters.
+PREDEFINED_OPPOSITES = {
+    "BIT": "TIB",
+    "TIB": "BIT",
+    "AIT": "XYZ", # Example from spec - replace with actual TJA opposite if defined
+    "ACT": "DEACT", # Example
+    # Add more known opposites
+}
+
+def get_letter_function(letter: str) -> str | None:
+    """
+    Retrieves the core function associated with a single TJA letter.
+
+    Args:
+        letter: The single uppercase letter from a TJA code.
+
+    Returns:
+        The descriptive function name if found, None otherwise.
+    """
+    if not isinstance(letter, str) or len(letter) != 1 or not letter.isupper():
+        # Basic validation for a single uppercase letter
+        return None
+    return LETTER_FUNCTIONS.get(letter, None)
+
+def get_code_functions(code: str) -> list[str | None]:
+    """
+    Retrieves the sequence of core functions for each letter in a TJA code.
+
+    Args:
+        code: The TJA code string (e.g., "AIT", "TJA").
+
+    Returns:
+        A list of function names corresponding to each letter in the code.
+        If a letter's function is not found, None is included in the list
+        for that position.
+    """
+    if not isinstance(code, str) or not code.isupper():
+        # Basic validation for an uppercase code string
+        return []
+    return [get_letter_function(letter) for letter in code]
+
+def get_flips(code: str) -> list[str]:
+    """
+    Retrieves a list of known "flipped" or related codes based on
+    predefined rules or lookup.
+
+    TODO: Implement actual TJA flip generation logic instead of relying
+    solely on PREDEFINED_FLIPS.
+
+    Args:
+        code: The TJA code string.
+
+    Returns:
+        A list of codes considered "flips" of the input code. Returns an empty
+        list if no flips are defined or generated.
+    """
+    if not isinstance(code, str) or not code.isupper():
+        return []
+    # Currently relies on the predefined dictionary.
+    # In the future, this should call a function that generates flips based on rules.
+    return PREDEFINED_FLIPS.get(code, [])
+
+def get_opposite(code: str) -> str | None:
+    """
+    Retrieves the known "shadow" or opposite code based on predefined rules
+    or lookup.
+
+    TODO: Implement actual TJA shadow logic generation based on the meaning
+    of the code.
+
+    Args:
+        code: The TJA code string.
+
+    Returns:
+        The opposite code if defined, None otherwise.
+    """
+    if not isinstance(code, str) or not code.isupper():
+        return None
+    # Currently relies on the predefined dictionary.
+    # In the future, this should call a function that generates the opposite
+    # based on defined shadow logic.
+    return PREDEFINED_OPPOSITES.get(code, None)
+
+def validate_tja_code(code: str) -> bool:
+    """
+    Validates if a string is a potentially valid TJA code.
+
+    A valid TJA code is typically composed of uppercase letters.
+    This function performs a basic check.
+
+    Args:
+        code: The string to validate.
+
+    Returns:
+        True if the string appears to be a valid TJA code format, False otherwise.
+    """
+    if not isinstance(code, str) or len(code) == 0:
+        return False
+    # Check if all characters are uppercase letters
+    return code.isupper() and re.fullmatch(r'[A-Z]+', code) is not None
+
+def get_code_meaning(code: str) -> dict:
+    """
+    Provides a comprehensive interpretation for a given TJA code,
+    including its core functions, known flips, and opposite.
+
+    This is a central decoding function utilizing the rules defined in this module.
+
+    Args:
+        code: The TJA code string to interpret.
+
+    Returns:
+        A dictionary containing the interpretation:
+        - 'code': The input code.
+        - 'is_valid': Boolean indicating if the code format is valid.
+        - 'functions': List of functions associated with each letter (or None).
+        - 'flips': List of known related/flipped codes.
+        - 'opposite': The known opposite code (or None).
+        Returns an empty dictionary if the input is not a string.
+    """
+    if not isinstance(code, str):
+        return {} # Or raise an error, depending on desired robustness
+
+    interpretation = {
+        'code': code,
+        'is_valid': validate_tja_code(code),
+        'functions': [],
+        'flips': [],
+        'opposite': None,
+    }
+
+    if interpretation['is_valid']:
+        interpretation['functions'] = get_code_functions(code)
+        interpretation['flips'] = get_flips(code)
+        interpretation['opposite'] = get_opposite(code)
+
+    return interpretation
+
+# Example Usage (for testing within the module if needed)
+if __name__ == "__main__":
+    print("Testing TJA Rules Module:")
+
+    # Test get_letter_function
+    print("\n--- Testing get_letter_function ---")
+    print(f"Function for 'A': {get_letter_function('A')}")
+    print(f"Function for 'Z': {get_letter_function('Z')}")
+    print(f"Function for 'a': {get_letter_function('a')}") # Should be None
+    print(f"Function for 'AX': {get_letter_function('AX')}") # Should be None
+    print(f"Function for 'Q': {get_letter_function('Q')}")
+    print(f"Function for 'X': {get_letter_function('X')}")
+    print(f"Function for '!': {get_letter_function('!')}") # Should be None
+
+    # Test get_code_functions
+    print("\n--- Testing get_code_functions ---")
+    print(f"Functions for 'AIT': {get_code_functions('AIT')}")
+    print(f"Functions for 'TJA': {get_code_functions('TJA')}")
+    print(f"Functions for 'BIT': {get_code_functions('BIT')}")
+    print(f"Functions for 'XYZ': {get_code_functions('XYZ')}")
+    print(f"Functions for 'ABC': {get_code_functions('ABC')}")
+    print(f"Functions for 'AiT': {get_code_functions('AiT')}") # Should be empty
+
+    # Test get_flips
+    print("\n--- Testing get_flips ---")
+    print(f"Flips for 'AIT': {get_flips('AIT')}")
+    print(f"Flips for 'TJA': {get_flips('TJA')}")
+    print(f"Flips for 'BIT': {get_flips('BIT')}")
+    print(f"Flips for 'NONEXISTENT': {get_flips('NONEXISTENT')}") # Should be empty
+
+    # Test get_opposite
+    print("\n--- Testing get_opposite ---")
+    print(f"Opposite for 'BIT': {get_opposite('BIT')}")
+    print(f"Opposite for 'AIT': {get_opposite('AIT')}")
+    print(f"Opposite for 'NONEXISTENT': {get_opposite('NONEXISTENT')}") # Should be None
+
+    # Test validate_tja_code
+    print("\n--- Testing validate_tja_code ---")
+    print(f"'AIT' is valid: {validate_tja_code('AIT')}")
+    print(f"'TJA' is valid: {validate_tja_code('TJA')}")
+    print(f"'AiT' is valid: {validate_tja_code('AiT')}") # Should be False
+    print(f"'A!T' is valid: {validate_tja_code('A!T')}") # Should be False
+    print(f"'' is valid: {validate_tja_code('')}") # Should be False
+    print(f"'ABC1' is valid: {validate_tja_code('ABC1')}") # Should be False
+
+    # Test get_code_meaning
+    print("\n--- Testing get_code_meaning ---")
+    print("Meaning of 'AIT':")
+    import json
+    print(json.dumps(get_code_meaning('AIT'), indent=2))
+
+    print("\nMeaning of 'BIT':")
+    print(json.dumps(get_code_meaning('BIT'), indent=2))
+
+    print("\nMeaning of 'TJA':")
+    print(json.dumps(get_code_meaning('TJA'), indent=2))
+
+    print("\nMeaning of 'XYZ':")
+    print(json.dumps(get_code_meaning('XYZ'), indent=2))
+
+    print("\nMeaning of 'InvalidCode!':")
+    print(json.dumps(get_code_meaning('InvalidCode!'), indent=2))
+
+    print("\nMeaning of 'abc':")
+    print(json.dumps(get_code_meaning('abc'), indent=2))
