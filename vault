@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+# <html>
+# <head><title>The Vault</title></head>
+# <body>
+#   <h1>ðŸŽ‰ Welcome to The Vault</h1>
+#   <p>Youâ€™ve uncovered a hidden chamber.</p>
+#   <p>Claim your reward: <a href="/rewards/golden.zip">Download Golden Pack</a></p>
+# </body>
+# </html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Vault: Golden Unveiled</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+  body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    color: #e0e0e0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    overflow: hidden; /* Prevent scrollbars from cosmic effects */
+    position: relative;
+  }
+
+  /* Cosmic Background Effect */
+  body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgODAwIDYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZmlsdGVyIGlkPSJub2lzZSI+CiAgICA8ZmVudG9yYnVsZW5jZSB0eXBlPSJmcmFjdGFsTm9pc2UiIGJhc2VGcmVxdWVuY3k9IjAuNzUiIG51bU9jdGF2ZXM9IjQiIHNlZWRMZW5ndGg9IjAuMSIgc3RpdGNoVGlsZXNDb2RlPSJub25lIj48L2ZlbnRvcmJ1bGVuY2U+CiAgICA8ZmVDb2xvck1hdHJpeCB0eXBlPSJtYXRyaXgiIHZhbHVlcz0iMSAwIDAgMCAwIDAgMSAwIDAgMCAwIDAgMSAwIDAgMCAwIDAgNiAtMyI+PC9mZUNvbG9yTWF0cml4PgogIDwvZmlsdGVyPgogIDxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjbm9pc2UpIj48L3JlY3Q+Cjwvc3ZnPg==') repeat; /* Example noise/star effect */
+    opacity: 0.1;
+    z-index: -1;
+    animation: cosmicFlow 60s linear infinite;
+  }
+
+  @keyframes cosmicFlow {
+    0% { background-position: 0 0; }
+    100% { background-position: 100% 100%; }
+  }
+
+
+  .container {
+    background: rgba(25, 25, 45, 0.8); /* Semi-transparent dark background */
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); /* Deeper shadow */
+    position: relative;
+    z-index: 1; /* Ensure content is above background effect */
+  }
+
+  h1 {
+    color: #ffda63; /* Golden color */
+    font-size: 3em;
+    margin-bottom: 20px;
+    position: relative;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% { text-shadow: 0 0 5px #ffda63; }
+    50% { text-shadow: 0 0 20px #ffda63, 0 0 30px #ffda63; }
+    100% { text-shadow: 0 0 5px #ffda63; }
+  }
+
+  p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin-bottom: 25px;
+  }
+
+  a {
+    display: inline-block;
+    background: linear-gradient(45deg, #ffda63, #e7a800); /* Golden gradient */
+    color: #333;
+    text-decoration: none;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 1.3em;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 5px 15px rgba(255, 218, 99, 0.4); /* Soft golden shadow */
+  }
+
+  a:hover {
+    transform: translateY(-3px); /* Slight lift effect */
+    box-shadow: 0 8px 20px rgba(255, 218, 99, 0.6); /* More prominent shadow on hover */
+    background: linear-gradient(45deg, #e7a800, #ffda63); /* Reverse gradient on hover */
+  }
+
+  a:active {
+    transform: translateY(0); /* Press down effect */
+    box-shadow: 0 3px 10px rgba(255, 218, 99, 0.3);
+  }
+
+  /* Particle effects - simplified for static example */
+  /* In a real implementation, you'd use JS for this */
+  .container::before, .container::after {
+    content: '';
+    position: absolute;
+    background: radial-gradient(circle, rgba(255,255,255,0.8) 10%, rgba(255,255,255,0) 90%);
+    width: 10px;
+    height: 10px;
+    opacity: 0.5;
+    border-radius: 50%;
+    pointer-events: none;
+    /* animation: particleFlow 10s infinite linear; */
+  }
+
+  /* You would place multiple of these with varied positions and animation delays */
+  /* .container::before { top: 20%; left: 10%; animation-delay: 1s; } */
+  /* .container::after { bottom: 15%; right: 5%; animation-delay: 3s; } */
+
+  /* @keyframes particleFlow { */
+  /*   0% { transform: translate(0, 0) scale(1); opacity: 0.5; } */
+  /*   100% { transform: translate(50px, 50px) scale(0); opacity: 0; } */
+  /* } */
+
+</style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>&#x1F3C6; Access Granted: The Golden Vault</h1>
+    <p><strong>Telemetry Confirmed.</strong> You have successfully breached the outer layers and discovered a hidden archive.</p>
+    <p>Within lies the legendary "Golden Pack," containing artifacts of immense power and knowledge.</p>
+    <p>Proceed with caution and reverence:</p>
+    <p><a href="/rewards/golden.zip" download>&#x1F4E5; Download Golden Pack Manifest</a></p>
+  </div>
+
+</body>
+</html>
