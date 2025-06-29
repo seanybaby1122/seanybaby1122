@@ -1,4 +1,3 @@
-# prompt: Can u act like a super advanced  master coder and enhance capabilities of this badges = {}
 # def unlock_badge(name):
 #     """Unlocks a badge."""
 #     global badges
@@ -130,6 +129,4 @@ print(get_badges(unlocked_only=True))
 print("\nAll badge data:")
 print(json.dumps(get_badges(unlocked_only=False), indent=2))
 
-# To clean up the created file in Colab
-# !rm badges.json
 
